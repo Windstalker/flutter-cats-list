@@ -10,6 +10,10 @@ class AppStateModel extends ChangeNotifier {
     return cats.where((cat) => favedIds.contains(cat.id)).toList();
   }
 
+  bool isFaved(Cat cat) {
+    return favedIds.contains(cat.id);
+  }
+
   void addFavorite(Cat cat) {
     favedIds.add(cat.id);
     notifyListeners();

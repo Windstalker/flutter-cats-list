@@ -25,7 +25,6 @@ class FavoritesPage extends StatelessWidget {
             return CatTile(
               key: ValueKey(cat.id),
               cat: cat,
-              faved: appState.favedIds.contains(cat.id),
             );
           },
         );

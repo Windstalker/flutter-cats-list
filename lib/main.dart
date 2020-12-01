@@ -1,3 +1,4 @@
+import 'package:cats/details.dart';
 import 'package:cats/models/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         routes: {
           Navigator.defaultRouteName: (context) => MyHomePage(title: appTitle),
           '/faved': (context) => FavoritesPage(),
+          '/details': (context) => DetailsPage()
         },
       ),
     );
