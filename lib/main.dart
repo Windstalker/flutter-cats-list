@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
           primaryColorDark: Color(0xffbf5f82),
           primaryColorLight: Color(0xffffc1e3),
           accentColor: Color(0xfff06292),
+          backgroundColor: Color(0xffffc1e3),
         ),
         initialRoute: Navigator.defaultRouteName,
         routes: {

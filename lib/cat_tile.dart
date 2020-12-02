@@ -1,3 +1,4 @@
+import 'package:cats/fav_button.dart';
 import 'package:cats/models/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,13 +35,8 @@ class CatTile extends StatelessWidget {
         ),
       ),
       title: Text(cat.name),
-      trailing: IconButton(
-        icon: appState.isFaved(cat)
-            ? Icon(
-                Icons.favorite,
-                color: Colors.red,
-              )
-            : Icon(Icons.favorite_border),
+      trailing: FavoriteButton(
+        faved: faved,
         onPressed: () =>
             !faved ? appState.addFavorite(cat) : appState.removeFavorite(cat),
       ),

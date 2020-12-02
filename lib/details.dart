@@ -1,3 +1,5 @@
+import 'package:cats/fav_button.dart';
+import 'package:cats/random_fact.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,16 +9,16 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String catId = ModalRoute.of(context).settings.arguments;
-    final cat = Provider.of<AppStateModel>(context)
-        .cats
-        .firstWhere((cat) => cat.id == catId, orElse: () => null);
+    final appState = Provider.of<AppStateModel>(context);
+    final cat =
+        appState.cats.firstWhere((cat) => cat.id == catId, orElse: () => null);
+    final faved = appState.isFaved(cat);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(cat?.name ?? 'Not found'),
       ),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Builder(
             builder: (context) {
@@ -31,32 +33,63 @@ class DetailsPage extends StatelessWidget {
 
               return Column(
                 children: [
-                  Hero(
-                    tag: 'hero-${cat.id}',
-                    child: CircleAvatar(
-                      radius: 64.0,
-                      backgroundColor: Theme.of(context).primaryColor,
-                      backgroundImage: Image.network(
-                        cat.avatarUrl,
-                        width: 128,
-                        height: 128,
-                        fit: BoxFit.cover,
-                      ).image,
+                  Card(
+                    margin: const EdgeInsets.all(8.0),
+                    elevation: 3,
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(right: 16.0),
+                            child: Hero(
+                              tag: 'hero-${cat.id}',
+                              child: CircleAvatar(
+                                radius: 64.0,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                backgroundImage: Image.network(
+                                  cat.avatarUrl,
+                                  width: 128,
+                                  height: 128,
+                                  fit: BoxFit.cover,
+                                ).image,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      cat.name,
+                                      style: textTheme.headline5,
+                                    ),
+                                    FavoriteButton(
+                                      faved: faved,
+                                      onPressed: () => !faved
+                                          ? appState.addFavorite(cat)
+                                          : appState.removeFavorite(cat),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  child: Text(
+                                    cat.description,
+                                    style: textTheme.bodyText2
+                                        .copyWith(fontSize: 16.0),
+                                  ),
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 16.0),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    child: Text(
-                      cat.name,
-                      style: textTheme.headline4,
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      cat.description,
-                      style: textTheme.bodyText2.copyWith(fontSize: 16.0),
-                    ),
-                    margin: const EdgeInsets.symmetric(vertical: 16.0),
-                  ),
+                  RandomFactWidget(),
                 ],
               );
             },
